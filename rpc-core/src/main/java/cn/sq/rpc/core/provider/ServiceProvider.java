@@ -26,7 +26,7 @@ public class ServiceProvider {
     }
 
 
-    public  void addService(String serviceName, Object service){
+    public void addService(String serviceName, Object service){
         if (!serviceMap.containsKey(serviceName)){
            serviceMap.putIfAbsent(serviceName, service);
            logger.info("服务 {} 已注册", serviceName);
