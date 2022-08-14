@@ -1,7 +1,7 @@
 package cn.sq.rpc.core.transport.socket;
 
-import cn.sq.rpc.core.entity.RpcRequest;
-import cn.sq.rpc.core.entity.RpcResponse;
+import cn.sq.rpc.core.entity.ResponseMessage;
+import cn.sq.rpc.core.transport.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +13,7 @@ import java.nio.channels.SocketChannel;
  * @author fishawd
  * @date 2022/7/31 13:27
  */
-public class SocketClient {
+public class SocketClient implements Client {
     private Logger logger = LoggerFactory.getLogger(SocketClient.class);
 
     private String ip;
@@ -25,14 +25,14 @@ public class SocketClient {
     }
 
 
-    public RpcResponse sendRequest(RpcRequest rpcRequest){
+    public ResponseMessage sendRequest(Object obj){
         try (SocketChannel socketChannel = SocketChannel.open()){
             socketChannel.connect(new InetSocketAddress(ip, port));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketChannel.socket().getOutputStream());
             ObjectInputStream objectInputStream = new ObjectInputStream(socketChannel.socket().getInputStream());
-            objectOutputStream.writeObject(rpcRequest);
+            objectOutputStream.writeObject(obj);
             objectOutputStream.flush();
-            return (RpcResponse) objectInputStream.readObject();
+            return (ResponseMessage) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             logger.error("连接失败 ", e);
         }

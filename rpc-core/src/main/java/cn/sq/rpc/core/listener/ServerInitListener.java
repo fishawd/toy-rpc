@@ -1,5 +1,7 @@
 package cn.sq.rpc.core.listener;
 
+import cn.sq.rpc.core.transport.Server;
+import cn.sq.rpc.core.transport.netty.NettyServer;
 import cn.sq.rpc.core.transport.socket.SocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +28,9 @@ public class ServerInitListener implements ApplicationListener<ContextRefreshedE
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        SocketServer socketServer = new SocketServer(host, port);
+//        SocketServer socketServer = new SocketServer(host, port);
+        Server server = new NettyServer(host, port);
         logger.info("RpcServer启动..., host:port={}:{}", host, port);
-        socketServer.startServer();
+        server.startServer();
     }
 }

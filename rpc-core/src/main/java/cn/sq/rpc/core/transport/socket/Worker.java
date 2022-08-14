@@ -1,7 +1,7 @@
 package cn.sq.rpc.core.transport.socket;
 
-import cn.sq.rpc.core.entity.RpcRequest;
-import cn.sq.rpc.core.entity.RpcResponse;
+import cn.sq.rpc.core.entity.RequestMessage;
+import cn.sq.rpc.core.entity.ResponseMessage;
 import cn.sq.rpc.core.handler.RequestHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +31,11 @@ public class Worker implements Runnable {
         try {
             ObjectInputStream inputStream = new ObjectInputStream(channel.socket().getInputStream());
             ObjectOutputStream outputStream = new ObjectOutputStream(channel.socket().getOutputStream());
-            RpcRequest rpcRequest = (RpcRequest) inputStream.readObject();
+            RequestMessage requestMessage = (RequestMessage) inputStream.readObject();
             // 通过反射调用具体的方法
-            Object result = requestHandler.handle(rpcRequest);
-            RpcResponse rpcResponse = RpcResponse.success(result);
-            outputStream.writeObject(rpcResponse);
+            Object result = requestHandler.handle(requestMessage);
+            ResponseMessage responseMessage = ResponseMessage.success(1L, result);
+            outputStream.writeObject(responseMessage);
         } catch (IOException | ClassNotFoundException e) {
             logger.error("方法执行出错 ", e);
         }

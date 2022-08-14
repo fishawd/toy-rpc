@@ -3,11 +3,13 @@ package cn.sq.rpc.core.entity;
 import java.io.Serializable;
 
 /**
- * 将一些调用信息发送给被调用方，用于明确调用哪个方法
  * @author fishawd
  * @date 2022/7/30 17:03
  */
-public class RpcRequest implements Serializable {
+public class RequestMessage implements Serializable {
+    private Long requestId;
+
+    private Boolean heatBeat;
     /**
      * 接口名
      */
@@ -27,6 +29,22 @@ public class RpcRequest implements Serializable {
      * 方法参数类型
      */
     private Class<?>[] parameterTypes;
+
+    public Boolean getHeatBeat() {
+        return heatBeat;
+    }
+
+    public void setHeatBeat(Boolean heatBeat) {
+        this.heatBeat = heatBeat;
+    }
+
+    public Long getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(Long requestId) {
+        this.requestId = requestId;
+    }
 
     public String getInterfaceName() {
         return interfaceName;
@@ -59,4 +77,5 @@ public class RpcRequest implements Serializable {
     public void setParameterTypes(Class<?>[] parameterTypes) {
         this.parameterTypes = parameterTypes;
     }
+
 }

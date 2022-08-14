@@ -1,7 +1,7 @@
 package cn.sq.rpc.core.transport.socket;
 
 import cn.sq.rpc.core.handler.RequestHandler;
-import cn.sq.rpc.core.provider.ServiceProvider;
+import cn.sq.rpc.core.transport.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @author fishawd
  * @date 2022/7/31 13:28
  */
-public class SocketServer {
+public class SocketServer implements Server {
 
     private Logger logger = LoggerFactory.getLogger(SocketServer.class);
 
@@ -35,12 +35,11 @@ public class SocketServer {
         this.host = host;
         this.port = port;
     }
-
+    @Override
     public void startServer(){
        try {
            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()
                    .bind(new InetSocketAddress(host, port));
-           logger.info("服务器启动..., {}:{}", host, port);
            while (true){
                SocketChannel channel = serverSocketChannel.accept();
                if (Objects.nonNull(channel)){

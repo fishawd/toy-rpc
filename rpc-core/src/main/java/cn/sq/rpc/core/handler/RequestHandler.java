@@ -1,8 +1,7 @@
 package cn.sq.rpc.core.handler;
 
-import cn.sq.rpc.core.entity.RpcRequest;
-import cn.sq.rpc.core.entity.RpcResponse;
-import cn.sq.rpc.core.provider.ServiceProvider;
+import cn.sq.rpc.core.entity.RequestMessage;
+import cn.sq.rpc.core.register.ServiceRegister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,13 +16,13 @@ public class RequestHandler {
 
     private Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
-    private ServiceProvider serviceProvider = ServiceProvider.getInstance();
+    private ServiceRegister serviceRegister = ServiceRegister.getInstance();
 
-    public Object handle(RpcRequest rpcRequest){
-        Object service = serviceProvider.getService(rpcRequest.getInterfaceName());
+    public Object handle(RequestMessage requestMessage){
+        Object service = serviceRegister.getService(requestMessage.getInterfaceName());
         try {
-            Method method = service.getClass().getMethod(rpcRequest.getMethodName(), rpcRequest.getParameterTypes());
-            return method.invoke(service, rpcRequest.getParameters());
+            Method method = service.getClass().getMethod(requestMessage.getMethodName(), requestMessage.getParameterTypes());
+            return method.invoke(service, requestMessage.getParameters());
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             logger.error("反射方法调用失败 ", e );
         }

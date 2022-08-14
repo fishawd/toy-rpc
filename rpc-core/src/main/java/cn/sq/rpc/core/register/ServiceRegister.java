@@ -1,4 +1,4 @@
-package cn.sq.rpc.core.provider;
+package cn.sq.rpc.core.register;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,19 +10,19 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author fishawd
  * @date 2022/7/31 22:24
  */
-public class ServiceProvider {
+public class ServiceRegister {
 
-    private Logger logger = LoggerFactory.getLogger(ServiceProvider.class);
+    private Logger logger = LoggerFactory.getLogger(ServiceRegister.class);
 
     private static Map<String, Object> serviceMap = new ConcurrentHashMap<>();
 
-    private static ServiceProvider serviceProvider = new ServiceProvider();
+    private static ServiceRegister serviceRegister = new ServiceRegister();
 
-    private ServiceProvider(){
+    private ServiceRegister(){
     }
 
-    public static ServiceProvider getInstance(){
-        return serviceProvider;
+    public static ServiceRegister getInstance(){
+        return serviceRegister;
     }
 
 
